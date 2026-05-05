@@ -1,3 +1,4 @@
+import 'package:eco_taksi/main.dart' show sdkContext;
 import 'package:flutter/material.dart';
 import 'package:dgis_mobile_sdk_full/dgis.dart' as sdk;
 import 'package:eco_taksi/styles/app_colors.dart';
@@ -12,7 +13,6 @@ class SearchBoxBottom extends StatefulWidget {
 }
 
 class _SearchBoxBottomState extends State<SearchBoxBottom> {
-  late sdk.Context _sdkContext;
   late final sdk.SearchManager _searchManager;
   final TextEditingController _textController = TextEditingController();
   List<sdk.DirectoryObject> _searchResults = [];
@@ -21,8 +21,7 @@ class _SearchBoxBottomState extends State<SearchBoxBottom> {
   @override
   void initState() {
     super.initState();
-    _sdkContext = sdk.DGis.initialize();
-    _searchManager = sdk.SearchManager.createOnlineManager(_sdkContext);
+    _searchManager = sdk.SearchManager.createOnlineManager(sdkContext);
   }
 
   @override

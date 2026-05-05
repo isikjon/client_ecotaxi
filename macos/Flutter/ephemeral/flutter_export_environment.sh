@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=C:\Users\webse\flutter"
-export "FLUTTER_APPLICATION_PATH=C:\mobileProjects\taxi_2.0\eco_taxi"
+export "FLUTTER_ROOT=/Users/shamsiddintadjiddinov40gmail.com/flutter"
+export "FLUTTER_APPLICATION_PATH=/Users/shamsiddintadjiddinov40gmail.com/Desktop/taxi/client_ecotaxi"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=1.1.0"

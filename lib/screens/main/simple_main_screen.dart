@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:eco_taksi/config/dgis_sdk_config.dart';
+import 'package:eco_taksi/main.dart' show sdkContext, isSdkInitialized;
 import 'package:dgis_mobile_sdk_full/dgis.dart' as sdk;
 import 'package:eco_taksi/screens/main/widgets/comment_for_driver_box.dart';
 import 'package:eco_taksi/screens/main/widgets/order_box.dart';
@@ -20,6 +20,7 @@ import '../../styles/app_colors.dart';
 import '../../styles/app_text_styles.dart';
 import '../../styles/app_spacing.dart';
 import '../../services/auth_service.dart';
+import '../../utils/safe_data.dart';
 import '../profile/profile_screen.dart';
 import '../orders/searching_driver_screen.dart';
 import '../orders/driver_on_way_screen.dart';
@@ -68,7 +69,6 @@ class _SimpleMainScreenState extends State<SimpleMainScreen> with TickerProvider
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final LocationService _locationService = LocationService();
 
-  final sdkContext = AppContainer().initializeSdk();
   final _mapWidgetController = sdk.MapWidgetController();
 
   // Новая логика
@@ -134,7 +134,7 @@ class _SimpleMainScreenState extends State<SimpleMainScreen> with TickerProvider
 
       final loc = await locationService.lastLocation().firstWhere(
         (l) => l != null,
-      );
+      ).timeout(const Duration(seconds: 5), onTimeout: () => null);
 
       if (loc != null) {
         final cameraPos = sdk.CameraPosition(
@@ -212,8 +212,8 @@ class _SimpleMainScreenState extends State<SimpleMainScreen> with TickerProvider
     try {
       final clientData = await AuthService.getCurrentClient();
       if (clientData != null && mounted) {
-        final firstName = clientData['first_name'] ?? '';
-        final lastName = clientData['last_name'] ?? '';
+        final firstName = SafeData.getString(clientData, 'first_name');
+        final lastName = SafeData.getString(clientData, 'last_name');
         setState(() {
           _userName = '$firstName $lastName'.trim();
           if (_userName.isEmpty) {
@@ -230,9 +230,25 @@ class _SimpleMainScreenState extends State<SimpleMainScreen> with TickerProvider
 
   @override
   Widget build(BuildContext context) {
+    if (!isSdkInitialized) {
+      return Scaffold(
+        backgroundColor: AppColors.background,
+        body: const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 16),
+              Text('Инициализация карт...'),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.background,
       drawer: _buildDrawer(),
       body: GestureDetector(
         onTapDown:  _isSelectingPoint ? _onMapTap : null,

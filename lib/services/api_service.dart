@@ -37,7 +37,7 @@ class ApiService {
           Uri.parse(ApiConfig.getEndpointUrl('client_register')),
           headers: ApiConfig.defaultHeaders,
           body: json.encode(apiData),
-        );
+        ).timeout(ApiConfig.connectionTimeout);
 
         print('Registration response status: ${response.statusCode}');
         print('Registration response body: ${response.body}');
@@ -97,7 +97,7 @@ class ApiService {
           Uri.parse('${ApiConfig.baseUrl}$endpoint'),
           headers: ApiConfig.defaultHeaders,
           body: json.encode(params),
-        );
+        ).timeout(ApiConfig.connectionTimeout);
 
         print('🔑 Login [$endpoint] status: ${response.statusCode}');
         print('🔑 Login [$endpoint] body: ${response.body}');
@@ -154,7 +154,7 @@ class ApiService {
         Uri.parse(ApiConfig.getEndpointUrl('sms_send')),
         headers: ApiConfig.defaultHeaders,
         body: json.encode({'phoneNumber': normalizedPhone}),
-      );
+      ).timeout(ApiConfig.connectionTimeout);
 
       print('📱 [ApiService] SMS response status: ${response.statusCode}');
       print('📱 [ApiService] SMS response body: ${response.body}');
@@ -198,7 +198,7 @@ class ApiService {
       final response = await http.get(
         Uri.parse(ApiConfig.getEndpointUrl('taxiparks')),
         headers: ApiConfig.defaultHeaders,
-      );
+      ).timeout(ApiConfig.connectionTimeout);
 
       print('Parks response status: ${response.statusCode}');
       print('Parks response body: ${response.body}');
@@ -235,7 +235,7 @@ class ApiService {
       final response = await http.get(
         Uri.parse('${ApiConfig.getEndpointUrl('sms_status')}?phoneNumber=$normalizedPhone'),
         headers: ApiConfig.defaultHeaders,
-      );
+      ).timeout(ApiConfig.connectionTimeout);
 
       print('SMS Status response status: ${response.statusCode}');
       print('SMS Status response body: ${response.body}');
@@ -338,7 +338,7 @@ class ApiService {
       final response = await http.get(
         Uri.parse(ApiConfig.getEndpointUrl('taxiparks')),
         headers: ApiConfig.defaultHeaders,
-      );
+      ).timeout(ApiConfig.connectionTimeout);
 
       print('Taxiparks response status: ${response.statusCode}');
       print('Taxiparks response body: ${response.body}');
@@ -376,7 +376,7 @@ class ApiService {
           'first_name': userData['user']['firstName'],
           'last_name': userData['user']['lastName'],
         }),
-      );
+      ).timeout(ApiConfig.connectionTimeout);
 
       print('📝 Profile update response status: ${response.statusCode}');
       print('📝 Profile update response body: ${response.body}');
@@ -415,7 +415,7 @@ class ApiService {
           'client_id': clientId,
           'payment_method': paymentMethod,
         }),
-      );
+      ).timeout(ApiConfig.connectionTimeout);
 
       print('💳 Payment method update response status: ${response.statusCode}');
       print('💳 Payment method update response body: ${response.body}');
@@ -449,7 +449,7 @@ class ApiService {
       final response = await http.get(
         Uri.parse(ApiConfig.getEndpointUrl('partners')),
         headers: ApiConfig.defaultHeaders,
-      );
+      ).timeout(ApiConfig.connectionTimeout);
 
       print('🏢 Partners response status: ${response.statusCode}');
       print('🏢 Partners response body: ${response.body}');
@@ -536,7 +536,7 @@ class ApiService {
       final response = await http.delete(
         url,
         headers: ApiConfig.defaultHeaders,
-      );
+      ).timeout(ApiConfig.connectionTimeout);
 
       print('✅ deleteAccount response status: ${response.statusCode}');
 

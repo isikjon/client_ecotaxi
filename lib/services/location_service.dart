@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:eco_taksi/main.dart' show sdkContext;
 import 'package:dgis_mobile_sdk_full/dgis.dart' as sdk;
 import 'package:geolocator/geolocator.dart';
 
@@ -18,7 +19,7 @@ class LocationService {
 
   Future<void> initialize() async {
     try {
-      _sdkContext = sdk.DGis.initialize();
+      _sdkContext = sdkContext;
       _addressController.add(_currentAddress);
 
       await _requestLocationPermission();
